@@ -67,7 +67,7 @@
   abstract = {This paper addresses the issue of learning time series forecasting models in changing environments by leveraging the predictive power of ensemble methods. Concept drift adaptation is performed in an active manner, by dynamically combining base learners according to their recent performance using a non-linear function. Diversity in the ensembles is encouraged with several strategies that include heterogeneity among learners, sampling techniques and computation of summary statistics as extra predictors. Heterogeneity is used with the goal of better coping with different dynamic regimes of the time series. The driving hypotheses of this work are that (i) heterogeneous ensembles should better fit different dynamic regimes and (ii) dynamic aggregation should allow for fast detection and adaptation to regime changes. We extend some strategies typically used in classification tasks to time series forecasting. The proposed methods are validated using Monte Carlo simulations on 16 realworld univariate time series with numerical outcome as well as an artificial series with clear regime shifts. The results provide strong empirical evidence for our hypotheses. To encourage reproducibility the proposed method is publicly available as a software package.},
   isbn = {978-1-5090-5004-8},
   langid = {english},
-  file = {/home/juniper/Documents/Qualificacao/assets/Papers/Cerqueira et al. - 2017 - Dynamic and Heterogeneous Ensembles for Time Series Forecasting.pdf;/home/juniper/Zotero/storage/GK5ICCKX/Cerqueira et al. - 2017 - Dynamic and Heterogeneous Ensembles for Time Series Forecasting.pdf}
+  file = {/home/juniper/Documents/Qualificacao/assets/Papers/Cerqueira et al. - 2017 - Dynamic and Heterogeneous Ensembles for Time Series Forecasting.pdf}
 }
 
 @article{didaciDiversityClassifierEnsembles2013,
@@ -187,6 +187,25 @@
   abstract = {The goal of ensemble regression is to combine several models in order to improve the prediction accuracy in learning problems with a numerical target variable. The process of ensemble learning can be divided into three phases: the generation phase, the pruning phase, and the integration phase. We discuss different approaches to each of these phases that are able to deal with the regression problem, categorizing them in terms of their relevant characteristics and linking them to contributions from different fields. Furthermore, this work makes it possible to identify interesting areas for future research.},
   langid = {english},
   file = {/home/juniper/Documents/Qualificacao/assets/Papers/Mendes-Moreira et al. - 2012 - Ensemble approaches for regression A survey.pdf}
+}
+
+@incollection{saadallahDriftBasedDynamicEnsemble2020,
+  title = {A {{Drift-Based Dynamic Ensemble Members Selection Using Clustering}} for {{Time Series Forecasting}}},
+  booktitle = {Machine {{Learning}} and {{Knowledge Discovery}} in {{Databases}}},
+  author = {Saadallah, Amal and Priebe, Florian and Morik, Katharina},
+  editor = {Brefeld, Ulf and Fromont, Elisa and Hotho, Andreas and Knobbe, Arno and Maathuis, Marloes and Robardet, C{\'e}line},
+  year = 2020,
+  series = {Lecture {{Notes}} in {{Computer Science}}},
+  volume = {11906},
+  pages = {678--694},
+  publisher = {Springer International Publishing},
+  address = {Cham},
+  doi = {10.1007/978-3-030-46150-8_40},
+  urldate = {2026-11-10},
+  abstract = {Both complex and evolving nature of time series structure make forecasting among one of the most important and challenging tasks in time series analysis. Typical methods for forecasting are designed to model time-evolving dependencies between data observations. However, it is generally accepted that none of them is universally valid for every application. Therefore, methods for learning heterogeneous ensembles by combining a diverse set of forecasts together appear as a promising solution to tackle this task. Hitherto, in classical ML literature, ensemble techniques such as stacking, cascading and voting are mostly restricted to operate in a static manner. To deal with changes in the relative performance of models as well as changes in the data distribution, we propose a drift-aware meta-learning approach for adaptively selecting and combining forecasting models. Our assumption is that different forecasting models have different areas of expertise and a varying relative performance. Our method ensures dynamic selection of initial ensemble base models candidates through a performance drift detection mechanism. Since diversity is a fundamental component in ensemble methods, we propose a second stage selection with clustering that is computed after each drift detection. Predictions of final selected models are combined into a single prediction. An exhaustive empirical testing of the method was performed, evaluating both generalization error and scalability of the approach using time series from several real world domains. Empirical results show the competitiveness of the method in comparison to stateof-the-art approaches for combining forecasters.},
+  isbn = {978-3-030-46149-2 978-3-030-46150-8},
+  langid = {english},
+  file = {/home/juniper/Documents/Qualificacao/assets/Papers/Saadallah et al. - 2020 - A Drift-Based Dynamic Ensemble Members Selection Using Clustering for Time Series Forecasting.pdf;/home/juniper/Zotero/storage/X4MLVZRR/Saadallah et al. - 2020 - A Drift-Based Dynamic Ensemble Members Selection Using Clustering for Time Series Forecasting.pdf}
 }
 
 @article{wolpertStackedGeneralization1992a,
