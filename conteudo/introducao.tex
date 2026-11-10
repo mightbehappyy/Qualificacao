@@ -4,29 +4,19 @@ A previsão de séries temporais tem um papel fundamental em diversas áreas, se
 O processo de construção de um \textit{Ensemble}
 se dá a partir de três etapas: geração, seleção e combinação \cite{mendes-moreiraEnsembleApproachesRegression2012}. Na primeira etapa, a diversidade entre os modelos base é introduzida por estratégias como a variação das representações de entrada, das inicializações e dos algoritmos de aprendizado, além da amostragem de dados e de atributos \cite{fanDiverseModelsUnited2025}. Essa diversidade atua como uma dimensão complementar do ajuste do modelo, permitindo que os modelos base reduzam erros correlacionados na predição final \cite{woodUnifiedTheoryDiversity}. Na etapa de seleção, o objetivo é filtrar o subconjunto de modelos mais competentes para a predição \cite{koDynamicClassifierSelection2008}. Por fim, na fase de agregação, as previsões dos modelos selecionados são combinadas por meio da média, mediana, votação ponderada, entre outros, com o objetivo de agregar as forças dos preditores \cite{allendeEnsembleMethodsTime2016}.
 
-Apesar de a diversidade ter uma importância reconhecida como uma das peças-chave para o desempenho de um \textit{ensemble}, a literatura ainda não tem um consenso formal sobre como gerênciar e quantificar essa característica do sistema de maneira ideal, abordando-a por meio de heurísticas e métricas isoladas que não demonstraram ter mais sucesso do que outras. Muitos estudos concentram-se em tentar maximizar a variação entre os preditores sem distinção, negligenciando o \textit{trade-off} entre viés, variância e diversidade, e deixando de lado investigações sobre como estruturar a geração e seleção dos modelos base de forma sinérgica \cite{woodUnifiedTheoryDiversity}.
+Embora o debate histórico sobre a utilidade, limites e as restrições da diversidade em \textit{ensembles} tenha sido consolidado em boa parte no contexto de classificação \cite{didaciDiversityClassifierEnsembles2013}, a transferência direta desses conceitos para a previsão de séries temporais requer cautela. Diferente de domínios estáticos, a natureza sequencial, a autocorrelação e a não-estacionariedade inerentes às séries temporais, que se manifestam por meio de mudanças de regime e concept drift \cite{cerqueiraArbitrageForecastingExperts2019}, podem alterar a forma como a discordância entre os preditores vem à tona e impacta o erro. Por consequência, supor que a diversidade observada em \textit{ensembles} de classificação aplica-se de maneira idêntica a séries temporais desconsidera as restrições que são criadas pela dinâmica temporal, o que motiva investigar se o contexto sequencial exige uma formulação teórica específica da diversidade. Assim como em classificação, onde a utilidade prática da diversidade foi questionada por \citeonline{didaciDiversityClassifierEnsembles2013}, é necessário investigar se ela é um conceito fértil para a previsão de séries temporais ou se, nesse contexto, constitui um beco sem saída. Este trabalho propõe, portanto, um estudo análogo, estendido à dimensão
+temporal.
 
-Diante destas limitações, este trabalho propõe uma nova abordagem para a seleção dinâmica de preditores, baseada na modelagem da dinâmica temporal da diversidade e em seu uso antecipativo para equilibrar o \textit{trade-off} entre diversidade e acurácia. Os métodos dinâmicos existentes adaptam pesos ou a composição do ensemble em tempo de execução, seja pelo desempenho recente dos modelos \cite{cerqueira2017}, pelo meta-aprendizado da competência de cada preditor \cite{cerqueira2019}, ou por mecanismos reativos à detecção de drift \cite{saadallah2019}. Nesses casos, a diversidade é, de maneira geral, tratada como uma propriedade avaliada no instante da agregação ou após a mudança já ter ocorrido. No lugar de maximizar a variação entre os preditores ou apenas reagir a ela, a proposta busca explorar a estrutura temporal da diversidade e sua relação com o desempenho do ensemble, de modo a antecipar os momentos em que ela, de fato, contribui para reduzir o erro.
+Nesse cenário, o comportamento do erro e a interação entre os modelos podem evoluir ao longo do tempo, o que torna plausível que a discordância entre os preditores também não seja uma propriedade fixa do \textit{ensemble}. Na literatura de previsão, porém, a diversidade costuma ser tratada como um insumo assumido como benéfico, promovido pela heterogeneidade dos modelos, ou como um critério pontual de poda, sem que seu comportamento temporal ou sua relação com o erro ao longo do tempo sejam examinados \cite{cerqueiraArbitrageForecastingExperts2019}. Até onde sabemos, não há uma caracterização sistemática de como a diversidade se comporta em séries temporais nem em que condições ela explica o erro do \textit{ensemble}. É justamente para preencher essa lacuna que o presente trabalho propõe examinar a dinâmica da diversidade nesse contexto e, a partir dessa compreensão, avaliar se ela pode ser explorada de forma prática na seleção dos modelos.
 
-Para guiar este trabalho, as seguintes perguntas de pesquisa foram formuladas:
-\begin{itemize}
-    \item \textbf{QP1:} A diversidade entre os preditores apresenta uma dependência temporal significativa, e como isso varia conforme a métrica de diversidade e as características da série?
-    \item \textbf{QP2:} É possível prever a diversidade futura do ensemble com desempenho superior a uma referência ingênua?
-    % A DIVERSIDADE IDEAL É O VALOR DA MÉTRICA DE DIVERSIDADE EM QUE A MÉTRICA DE ERRO UTILIZADA TEM SEU MENOR
-    % VALOR
-    \item \textbf{QP3:} A distância entre a diversidade do ensemble e a diversidade ideal explica a perda de desempenho, e essa relação depende do regime da série?
-    \item \textbf{QP4:} A seleção dinâmica orientada à diversidade ideal estimada supera os métodos dinâmicos de referência?
-\end{itemize}
+Nesse contexto, o presente trabalho é guiado pelas seguintes perguntas de pesquisa:
 
-Esta pesquisa busca entregar contribuições significativas para a literatura em três aspectos. O trabalho busca inovar na previsão de séries temporais ao formalizar a diversidade como um processo temporal e preditivo, propondo um mecanismo de seleção de \textit{ensembles} antecipativo. A pesquisa também fornece uma avaliação dessa abordagem frente a mudanças de regime e alta volatilidade, contrastando-a com os principais métodos reativos do estado da arte \cite{cerqueira2019arbitrated}. Por fim, espera-se consolidar a metodologia desenvolvida em código aberto, viabilizando sua aplicação e reprodutibilidade por pesquisadores e profissionais de diversos domínios.
+\begin{enumerate}
+    \item \textbf{PQ1} Se e como a diversidade entre os preditores de um ensemble evolui ao longo do tempo em séries temporais, e como essa evolução se relaciona com mudanças de regime e \textit{concept drift}?
+    
+    \item \textbf{PQ2} Em que medida e sob quais condições a diversidade, medida de forma temporal, explica o erro do ensemble, considerando a autocorrelação e a dependência sequencial das séries?
+    
+    \item \textbf{PQ3} A modelagem da evolução da discordância entre preditores pode orientar a seleção dinâmica de modelos de modo a reduzir o erro do ensemble em relação a estratégias que não utilizam essa informação?
+\end{enumerate}
 
-\textbf{Limite: 2 páginas}
-
-
-
-
-
-
-
-
-
+Espera-se que o presente trabalho contribua para a literatura em três frentes. Do ponto de vista analítico, busca-se formular a relação entre a diversidade e o erro do \textit{ensemble} sob as restrições da dinâmica temporal, explicitando em que medida as decomposições clássicas se mantêm a frente da correlação e da não-estacionariedade. Do ponto de vista empírico, pretende-se caracterizar como a diversidade evolui ao longo do tempo e como sua relação com o erro varia em séries com mudança de regime e \textit{concept drift}, o que permite verificar se existe estrutura temporal na discordância entre os preditores que possa ser explorada. Por fim, do ponto de vista metodológico, propõe-se um critério de seleção dinâmica que utilize a evolução da discordância de forma antecipativa, em contraste com os métodos reativos da literatura.
