@@ -1,19 +1,60 @@
 \chapter{Proposta e Justificativa}
 
-Diante das limitações mencionadas anteriormente e da necessiadade de gerenciar o \textit{trade-off} diversidade-vies-variancia, este trabalho propõe uma nova abordagem voltada para a modelagem da estrutura temporal da diversidade.
+Esta pesquisa propõe investigar o papel da diversidade em \textit{ensembles} de
+preditores para séries temporais, em um estudo análogo ao realizado para classificação
+por \citeonline{didaciDiversityClassifierEnsembles2013}, estendido à previsão de séries
+temporais. Em vez de assumir que uma maior diversidade significa menor erro, busca-se
+examinar sua relação com o erro, verificar se ela possui estrutura temporal e como se
+comporta sob autocorrelação e não-estacionariedade, e avaliar se, a partir dessas
+análises, pode ser explorada na seleção dinâmica de modelos.
 
-\textbf{Limite: até 2 páginas }
+O trabalho tem como objetivo geral adaptar a noção de diversidade entre preditores ao
+contexto de séries temporais, considerando a autocorrelação, a dependência sequencial e
+a não-estacionariedade, e verificar em que medida a diversidade assim definida explica
+o erro do \textit{ensemble} e pode ser explorada na seleção dinâmica de modelos.
+Pretende-se caracterizar a evolução temporal da diversidade e sua relação com mudanças
+de regime e \textit{concept drift}, analisar em que medida e sob quais condições ela
+está associada ao erro do \textit{ensemble}, além do erro individual dos preditores, e
+avaliar se a evolução da discordância pode orientar a seleção dinâmica de modelos, por
+meio de experimentos comparativos com métodos reativos e com estratégias que não
+consideram a possível evolução temporal da diversidade.
+
+A diversidade é reconhecida como um componente central dos \textit{ensembles}, com
+vantagens que vão além da redução do erro, como a eficiência computacional em relação
+a modelos únicos de grande porte, a resiliência a manipulações de entrada e a
+mitigação de \textit{covariate shift}. Apesar dessa importância, ela ainda é tratada,
+em grande medida, como uma heurística sem definição precisa
+\cite{woodUnifiedTheoryDiversity}. Para o aprendizado supervisionado em geral,
+\citeonline{woodUnifiedTheoryDiversity} propõem uma teoria unificada da diversidade e,
+para classificação, \citeonline{didaciDiversityClassifierEnsembles2013} discutem em
+que medida as decomposições do erro permitem uma definição mais clara do conceito e
+sua exploração na construção de \textit{ensembles}. Até onde sabemos, porém, não há
+uma caracterização sistemática de seu comportamento em séries temporais, onde a
+autocorrelação e a não-estacionariedade podem comprometer os pressupostos das
+formulações existentes. É nesse sentido que o presente trabalho busca contribuir,
+examinando a relação da diversidade com o erro sob dependência sequencial. Na prática,
+pode oferecer critérios mais fundamentados para decidir quando promover a diversidade e
+como selecionar modelos. Em suma, o estudo busca delimitar as condições em que a
+diversidade pode ou não ser promovida.
 
 \section{Objetivos}
 
 \subsection{Objetivo Geral}
-O objetivo geral é único e representa a solução que estará sendo proposta para o problema ou objeto de pesquisa.
+Adaptar a noção de diversidade entre preditores ao contexto de séries temporais, de
+maneira que leve em conta a autocorrelação, a dependência sequencial e a
+não-estacionariedade, e verificar em que medida a diversidade assim definida explica o
+erro do \textit{ensemble} e pode ser explorada na seleção dinâmica de modelos.
 
 \subsection{Objetivos Específicos}
-
 \begin{enumerate}
-    \item Objetivo 1
-    \item Objetivo 2
-    \item ...    
+    \item Adaptar a diversidade entre preditores ao contexto de séries temporais,
+    identificando quais pressupostos das formulações existentes apresentam limitações
+    sob autocorrelação e não-estacionariedade;
+    \item Caracterizar a evolução temporal da diversidade e sua relação com mudanças de
+    regime e \textit{concept drift};
+    \item Analisar sob quais condições e em que grau a diversidade adaptada está
+    associada ao erro do \textit{ensemble}, além do erro individual dos preditores;
+    \item Avaliar se a evolução da discordância pode orientar a seleção dinâmica de
+    modelos, comparando-a com métodos reativos e com estratégias que não usam essa
+    informação.
 \end{enumerate}
-
