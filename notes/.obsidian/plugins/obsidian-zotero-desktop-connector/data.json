@@ -1,17 +1,31 @@
 {
   "database": "Zotero",
-  "noteImportFolder": "",
+  "noteImportFolder": "leitura",
   "pdfExportImageDPI": 120,
   "pdfExportImageFormat": "jpg",
   "pdfExportImageQuality": 90,
   "citeFormats": [],
   "exportFormats": [
     {
-      "name": "Nota de literatura",
+      "name": "Import #4",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "_templates/template-leitura.md"
+    },
+    {
+      "name": "Import #2",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "_templates/template-leitura.md"
+    },
+    {
+      "name": "Anotações",
       "outputPathTemplate": "literatura/{{citekey}}.md",
       "imageOutputPathTemplate": "literatura/imgs/{{citekey}}",
       "imageBaseNameTemplate": "image",
-      "templatePath": "_templates/literatura.md"
+      "templatePath": "_templates/template-anotações.md"
     }
   ],
   "citeSuggestTemplate": "[[{{citekey}}]]",
