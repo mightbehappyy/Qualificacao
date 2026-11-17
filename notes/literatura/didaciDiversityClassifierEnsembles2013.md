@@ -31,7 +31,6 @@ Didaci discute no artigo uma nova definição do erro de ensembles para classifi
 > [!warning] Definição (p. 43)
 > "However, for L > 2 the disagreement is not expressed in terms of the class labels, but in terms of the correctness of such choices (they coincide only when L = 2)." [Ver no PDF](zotero://open-pdf/library/items/WPZ5B787?page=43&annotation=VE8C6HUR)
 
-
 > [!warning] Definição (p. 43)
 > "eens(d) = e(d) −  ∫  x+  1 N  N ∑ j=1  δj(x; d)dx +  ∫  x−  1 N  N ∑ j=1  δj(x; d)dx ." [Ver no PDF](zotero://open-pdf/library/items/WPZ5B787?page=43&annotation=VVS6I6T3)
 > **Minha nota:** Trazem uma definição de boa e má diversidade
