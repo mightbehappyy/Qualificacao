@@ -53,28 +53,31 @@ O protocolo experimental reunirá um conjunto de 15 séries temporais reais cons
 
 \begin{table}[ht]
 \centering
-\caption{Séries temporais empregadas na avaliação empírica, suas propriedades/adversidades e estudos de origem.}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Caracterização das 15 séries temporais reais avaliadas.}
 \label{tab:series_temporais}
-\begin{tabular}{p{3.8cm}p{5.5cm}p{3.8cm}}
+\begin{tabular}{lll}
 \hline
-\textbf{Série Temporal} & \textbf{Características / Adversidades} & \textbf{Fonte / Referência} \\
+\textbf{Série} & \textbf{Características / Concept Drift} & \textbf{Ref.} \\
 \hline
-Goldman Sachs & Série financeira; dinâmica não estacionária e volatilidade & \citeonline{silva} \\
-Sunspot & Série solar; comportamento cíclico / sazonalidade & \citeonline{silva2021dynamic} \\
-Star Brightness & Série astronômica; padrões cíclicos e ruído observacional & \citeonline{silva2021dynamic} \\
-Amazon & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
-Apple & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
-Microsoft & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
-Vehicle & Série de vendas/veículos; tendência e variação sazonal & \citeonline{silva2021dynamic} \\
-Wine & Série de vendas/vinho; padrão sazonal e tendência & \citeonline{silva2021dynamic} \\
-Pollution & Série ambiental/poluição; não estacionária e variações temporais & \citeonline{silva2021dynamic} \\
-Electricity & Série energética; sazonalidade e variação de carga & \citeonline{silva2021dynamic} \\
+Goldman Sachs & Financeira; não estacionária e volátil & \citeonline{silvaDynamicPredictorSelection2021} \\
+Sunspot & Solar; comportamento cíclico e sazonal & \citeonline{silvaDynamicPredictorSelection2021} \\
+Star Brightness & Astronômica; padrões cíclicos com ruído & \citeonline{silvaDynamicPredictorSelection2021} \\
+Amazon & Financeira; tendência, volatilidade e regimes & \citeonline{silvaDynamicPredictorSelection2021} \\
+Apple & Financeira; tendência, volatilidade e regimes & \citeonline{silvaDynamicPredictorSelection2021} \\
+Microsoft & Financeira; tendência, volatilidade e regimes & \citeonline{silvaDynamicPredictorSelection2021} \\
+Vehicle & Vendas; tendência e variação sazonal & \citeonline{silvaDynamicPredictorSelection2021} \\
+Wine & Vendas; padrão sazonal e tendência & \citeonline{silvaDynamicPredictorSelection2021} \\
+Pollution & Ambiental; não estacionária & \citeonline{silvaDynamicPredictorSelection2021} \\
+Electricity & Energética; sazonalidade e variação de carga & \citeonline{silvaDynamicPredictorSelection2021} \\
 \hline
-Foreign exchange rates & Série diária de câmbio; não estacionária, volatilidade e mudanças de regime & \citeonline{cerqueira2019arbitrage} \\
-IBM common stock closing prices & Série diária de ações; não estacionária e dinâmica financeira & \citeonline{cerqueira2019arbitrage} \\
-Total demand & Série a cada meia hora (eletricidade); forte sazonalidade intradiária & \citeonline{cerqueira2019arbitrage} \\
-Total bike rentals & Série horária de mobilidade; sazonalidade diária/semanal & \citeonline{cerqueira2019arbitrage} \\
-Internet traffic data II & Série horária de tráfego de rede; picos e variações de regime & \citeonline{cerqueira2019arbitrage} \\
+Dow Jones-Drift & Diária ($N{=}735$); 3 \textit{drifts} abruptos mapeados & \citeonline{oliveira2025dynamic} \\
+S\&P500-Drift & Diária ($N{=}4.229$); 3 \textit{drifts} graduais mapeados & \citeonline{oliveira2025dynamic} \\
+\hline
+$\text{PM}_{10}$ Campinas & Horária ($N{=}35.064$); 7 \textit{drifts} (DDM), recorrente & \citeonline{bueno2020dynamic} \\
+$\text{PM}_{10}$ Jundiaí & Horária ($N{=}35.064$); 6 \textit{drifts} (DDM), recorrente & \citeonline{bueno2020dynamic} \\
+$\text{PM}_{10}$ S. Caetano & Horária ($N{=}35.064$); 6 \textit{drifts} (DDM), recorrente & \citeonline{bueno2020dynamic} \\
 \hline
 \end{tabular}
 \end{table}
