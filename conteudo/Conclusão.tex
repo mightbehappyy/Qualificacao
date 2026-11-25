@@ -1,5 +1,7 @@
 \chapter{Considerações Parciais}
 
-Descreva as conclusões esperadas do estudo.
+Como conclusão esperada, projeta-se que a reformulação das métricas de diversidade para o domínio de séries temporais permita superar as limitações observadas quando se aplicam diretamente medidas para dados estáticos e independentes (i.i.d). Conforme foi evidenciado tanto na análise teórica preliminar quanto nos experimentos diagnósticos de seleção estática, maximizar a discordância entre preditores de maneira isolada, sem controlar o erro individual, não garante ganhos de desempenho em relação ao melhor modelo individual. 
 
-\textbf{Limite: até 2 página}
+No aspecto teórico, espera-se concluir o estudo estabelecendo uma decomposição matemática consistente entre erro individual e diversidade para processos estocásticos dependentes e não estacionários, estendendo o arcabouço das decomposições baseadas em divergências de Bregman para cenários com ponderação e seleção dinâmica em tempo de execução. Assim, projeta-se demonstrar sob quais condições formais a diversidade contribui efetivamente para a redução do erro preditivo sem dependenr do conhecimento prévio das observações futuras da série.
+
+No âmbito prático e experimental, projeta-se que o método de seleção dinâmica proposto alcance erros iguais ou menores que os dos modelos individuais, bem como se prove uma metodologia competitiva frente a outras abordagens que utilizam a diversidade como critério de seleção em séries temporais. Por fim, espera-se fornecer protocolos experimentais reprodutíveis que contribuam para a literatura com \textit{ensembles} mais precisos e adaptativos.

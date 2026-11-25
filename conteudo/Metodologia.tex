@@ -1,31 +1,97 @@
 \chapter{Metodologia}
 
 Este capítulo detalha os procedimentos analíticos, empíricos e metodológicos adotados para investigar a possível dinâmica temporal da diversidade e sua relação com a decomposição do erro em \textit{ensembles} de séries temporais. Em conformidade com os objetivos do trabalho, são estruturadas três frentes que se complementam: 1) a formalização analítica da decomposição do erro sob dependência sequencial; 2) caracterização empírica da evolução temporal da discordância entre preditores; e, por fim, 3) a criação de um critério para seleção dinâmica antecipativa.
-
+m
 \section{Formalização do Problema e Ambiente Temporal}
-Será conduzida a extensão analítica da decomposição do erro de \textit{ensembles} para o domínio de séries temporais. Para isso, articula-se a perspectiva conceitual sobre os limites e o papel da diversidade tanto para a redução quanto para o aumento do erro \cite{didaciDiversityClassifierEnsembles2013} com o arcabouço matemático unificado proposto por \citeonline{woodUnifiedTheoryDiversity}. Enquanto as formulações originais assumem amostras independentes e identicamente distribuídas e regras de agregação estatísticas, o procedimento de derivação será conduzido em três etapas. 
+Será conduzida a extensão analítica da decomposição do erro de \textit{ensembles} para o domínio de séries temporais. Para isso, articula-se a perspectiva conceitual sobre os limites e o papel da diversidade tanto para a redução quanto para o aumento do erro \cite{didaciDiversityClassifierEnsembles2013} com o arcabouço matemático unificado proposto por Wood \textit{et al.} \cite{woodUnifiedTheoryDiversity}. Enquanto as formulações originais assumem amostras independentes e identicamente distribuídas e regras de agregação estatísticas, o procedimento de derivação será conduzido em três etapas. 
 
-Primeiramente, partirar-se da decomposição pontual da ambiguidade sob perda quadrática e de sua generalização via divergências de Bregman \cite{woodUnifiedTheoryDiversity}, substituindo os combinadores por regras de agregação com pesos variantes no tempo ($w_{i, t}$). Como destacado por ambos os autores, o termo de discordância para a ambiguidade não depende do valor real do futuro $y_{t+h}$, o que permite a formalização de uma medida de diversidade computável em tempo de execução, o que será fundamental para a execução da terceira frente. 
+Primeiramente, parte-se da decomposição pontual da ambiguidade sob perda quadrática para um comitê de $M$ preditores $\{\hat{y}_{i, t+h}\}_{i=1}^M$, substituindo os combinadores estáticos por regras de agregação com pesos variantes no tempo $w_{i, t}$ ($w_{i,t} \ge 0$, com $\sum_{i=1}^{M} w_{i,t} = 1$), definidas por $\hat{y}_{ens, t +h}$ = $\sum_{i=1}^{M} w_{i, t} \hat{y}_{i, t+h}$:
 
-Na transição da identidade pontual para o risco médio esperado, os operadores de esperança incondicional serão substituídos por esperança condicionadas ao histórico sequencial disponível até o instante $t$. Por meio da expansão algébrica desses termos, busca-se explicitar a covariância temporal gerada pelo fato de o conjunto de treinamento e os pesos adaptativos $w_{i, t}$, pertencerem à mesma trajetória autocorrelacionada dos erros futuros. Por fim, será avaliado o comportamento da decomposição quando a série sofre mudanças de padrão ao longo do tempo.
+\begin{equation}
+    (y_{t+h} - \hat{y}_{\text{ens}, t+h})^2 = \sum_{i=1}^{M} w_{i,t} (y_{t+h} - \hat{y}_{i, t+h})^2 - \underbrace{\sum_{i=1}^{M} w_{i,t} (\hat{y}_{i, t+h} - \hat{y}_{\text{ens}, t+h})^2}_{A_t}
+\end{equation}
+
+em que $A_t$, representa a ambiguidade (diversidade) no instante $t$ e pesos nulos ($w_{i, t} = 0$) correspondem ao descarte dinâmico do modelo $i$. Como destacado por Didaci et al \cite{didaciDiversityClassifierEnsembles2013}, o termo $A_t$ depende apenas das previsões individuais e dos pesos disponíveis em $t$, prescindindo do valor real futuro $y_{t+h}$. Essa propriedade permite computar a diversidade em tempo de execução, viabilizando a terceira frente. Posteriormente, essa identidade será generalizada para outras funções de perda por meio das divergências de Bregman \cite{woodUnifiedTheoryDiversity}.
+
+Na transição da identidade pontual para o risco médio esperado, os operadores de esperança incondicional serão substituídos por esperança condicionada ao histórico sequencial disponível até o instante $t$ (denotado por $\mathcal{F}_t$)
+
+$$\mathbb{E}\left[(Y_{t+h} - \hat{y}_{\text{ens}, t+h})^2 \mid \mathcal{F}_t\right] = \sum_{i=1}^{M} w_{i,t} \, \mathbb{E}\left[(Y_{t+h} - \hat{y}_{i, t+h})^2 \mid \mathcal{F}_t\right] - A_t$$
+
+
+Nessa formulação condicional, os pesos $w_{i,t}$ e as previsões $\hat{y}_{i,t+h}$ comportam-se como quantidades determinísticas conhecidas em $t$, enquanto toda a estocasticidade reside na realização futura $Y_{t+h}$. Contudo, ao avaliar o desempenho global do sistema ao longo de toda a trajetória estocástica da série temporal, o condicionamento a $\mathcal{F}_t$ é relaxado por meio da lei da esperança total, uma vez que $\mathbb{E}[X] = \mathbb{E}[\mathbb{E}[X \mid \mathcal{F}_t]]$, e os pesos adaptativos $w_{i,t}$ passam a atuar como variáveis aleatórias dependentes do tempo. Definindo o erro quadrático individual como $e_{i,t+h}^2 = (Y_{t+h} - \hat{y}_{i,t+h})^2$ e aplicando a identidade fundamental da covariância à esperança do erro médio ponderado, explicita-se um termo adicional de covariância temporal:
+
+$$\mathbb{E}\left[\sum_{i=1}^{M} w_{i,t} e_{i, t+h}^2\right] = \sum_{i=1}^{M} \mathbb{E}[w_{i,t}] \, \mathbb{E}[e_{i, t+h}^2] + \sum_{i=1}^{M} \text{Cov}(w_{i,t}, e_{i, t+h}^2)$$
+
+O aparecimento da covariância temporal evidencia o fato de que os pesos adaptativos $w_{i,t}$ e os erros futuros $e_{i,t+h}^2$ não evoluem de forma independente, mas compartilham a mesma trajetória autocorrelacionada da série temporal. Esse termo atua de modo que, quando $\mathrm{Cov}(w_{i,t}, e_{i,t+h}^2) < 0$, os pesos maiores concentram-se nos momentos em que o modelo $i$ comete erros menores, reduzindo o erro esperado do ensemble. Por outro lado, valores positivos indicam descompasso na alocação de pesos, penalizando a acurácia global do ensemble.
+
+O Algoritmo sintetiza o procedimento sequencial subjacente e essa formalização ao longo do horizonte temporal
+
+\begin{algorithm}[ht]
+\caption{Avaliação sequencial da decomposição e da covariância temporal}
+\label{alg:decomposicao_temporal}
+\begin{algorithmic}[1]
+\For{$t = 1$ \textbf{to} $T$}
+    \State Obter previsões individuais $\{\hat{y}_{i,t+h}\}_{i=1}^{M}$ dado o histórico $\mathcal{F}_t$.
+    \State Definir pesos dinâmicos $\{w_{i,t}\}_{i=1}^{M}$ com $w_{i,t} \ge 0$ e $\sum_{i=1}^{M} w_{i,t} = 1$.
+    \State Calcular $\hat{y}_{\text{ens},t+h} \gets \sum_{i=1}^{M} w_{i,t}\hat{y}_{i,t+h}$.
+    \State Computar a ambiguidade $A_t \gets \sum_{i=1}^{M} w_{i,t}(\hat{y}_{i,t+h} - \hat{y}_{\text{ens},t+h})^2$ (sem $y_{t+h}$).
+    \State Observar o valor real $y_{t+h}$ e calcular $e_{i,t+h}^2 \gets (y_{t+h} - \hat{y}_{i,t+h})^2$.
+\EndFor
+\State Estimar médias ao longo da trajetória e $\mathrm{Cov}(w_{i,t}, e_{i,t+h}^2)$ para avaliar a seleção dinâmica.
+\end{algorithmic}
+\end{algorithm}
+
+Além disso, essa decomposição não se restringe ao erro quadrático: por meio da agregação baseada em divergências de Bregman, é possível estender essa estrutura analítica para outras funções de perda adequadas a diferentes naturezas de previsão (como perdas assimétricas, probabilísticas ou de entropia).
+
+Por fim, será avaliado o comportamento dessa decomposição quando a série sofre mudanças de padrão ao longo do tempo (\textit{concept drift}), investigando sob quais condições a diversidade $A_t$ compensa o aumento do erro dos preditores desatualizados.
 
 \section{Caracterização Empírica da Evolução da Discordância}
-A segunda frente metodológica tem como objetivo empiricamente à primeira pergunta da pesquisa e avaliar os achados analíticos da segunda, investigando como a diversidade evolui ao longo do tempo e como essa dinâmica se comporta diante da autocorrelação e mudanças de regime. 
+A segunda frente metodológica tem como objetivo avaliar empiricamente a primeira pergunta da pesquisa e os achados analíticos da segunda, investigando como a diversidade evolui ao longo do tempo e como essa dinâmica se comporta diante da autocorrelação e mudanças de regime. 
 
-O protocolo experimental reunirá um conjunto de 30 séries temporais reais consolidadas na literatura de previsão de séries temporais. As bases serão catalogadas e estatificadas segunda a presença de propriedades estatísticas e adversidades estruturais distintas: estacionariedade e não estacionariedade, sazonalidade, heterocedasticidade e ocorrencia de \textit{concept drift}. Essa estratificação permitirá observar, de forma isolada, como cada regime influencia a dinâmica da diversidade entre os preditores.
+O protocolo experimental reunirá um conjunto de 15 séries temporais reais consolidadas na literatura de previsão de séries temporais, descritas na \ref{tab:series_temporais}. As bases serão catalogadas e estatificadas segunda a presença de propriedades estatísticas e adversidades estruturais distintas: estacionariedade e não estacionariedade, sazonalidade, heterocedasticidade e ocorrencia de \textit{concept drift}. Essa estratificação permitirá observar, de forma isolada, como cada regime influencia a dinâmica da diversidade entre os preditores.
+
+
+\begin{table}[ht]
+\centering
+\caption{Séries temporais empregadas na avaliação empírica, suas propriedades/adversidades e estudos de origem.}
+\label{tab:series_temporais}
+\begin{tabular}{p{3.8cm}p{5.5cm}p{3.8cm}}
+\hline
+\textbf{Série Temporal} & \textbf{Características / Adversidades} & \textbf{Fonte / Referência} \\
+\hline
+Goldman Sachs & Série financeira; dinâmica não estacionária e volatilidade & \citeonline{silva} \\
+Sunspot & Série solar; comportamento cíclico / sazonalidade & \citeonline{silva2021dynamic} \\
+Star Brightness & Série astronômica; padrões cíclicos e ruído observacional & \citeonline{silva2021dynamic} \\
+Amazon & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
+Apple & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
+Microsoft & Série financeira; tendência, volatilidade e mudanças de regime & \citeonline{silva2021dynamic} \\
+Vehicle & Série de vendas/veículos; tendência e variação sazonal & \citeonline{silva2021dynamic} \\
+Wine & Série de vendas/vinho; padrão sazonal e tendência & \citeonline{silva2021dynamic} \\
+Pollution & Série ambiental/poluição; não estacionária e variações temporais & \citeonline{silva2021dynamic} \\
+Electricity & Série energética; sazonalidade e variação de carga & \citeonline{silva2021dynamic} \\
+\hline
+Foreign exchange rates & Série diária de câmbio; não estacionária, volatilidade e mudanças de regime & \citeonline{cerqueira2019arbitrage} \\
+IBM common stock closing prices & Série diária de ações; não estacionária e dinâmica financeira & \citeonline{cerqueira2019arbitrage} \\
+Total demand & Série a cada meia hora (eletricidade); forte sazonalidade intradiária & \citeonline{cerqueira2019arbitrage} \\
+Total bike rentals & Série horária de mobilidade; sazonalidade diária/semanal & \citeonline{cerqueira2019arbitrage} \\
+Internet traffic data II & Série horária de tráfego de rede; picos e variações de regime & \citeonline{cerqueira2019arbitrage} \\
+\hline
+\end{tabular}
+\end{table}
+
 
 Para garantir a diversidade estrutural, a base de preditores será dividida em modelos estatísticos, modelos clássicos de aprendizado de máquina e modelos do estado da arte. Para assegurar que a discordância observada entre os modelos ocorra devido às suas diferenças estruturais e não por conta de \textit{overfitting} ou \textit{underfitting}, cada modelo terá seus hiperparâmetros otimizados; o método de otimização será o optuna. O ajuste será conduzido exclusivamente sobre o conjunto de validação e, dessa forma, respeitando a ordem cronológica, evitando vazamento de dados. 
 
 Serão construídos comitês homogêneos e heterogêneos e, a formalização da diversidade temporal definida na seção 4.1, será analisada: 1) a trajetória temporal do termo de ambiguidade temporal durante transições de regime; e 2) a correlação entre os níveis de diversidade gerados por cada combinação de famílias de modelos e o ganho de desempenho em relação ao melhor modelo individual.
 
-\section{Abordagem Metodológica: Seleção Dinâmica Antecipativa}
+\section{Seleção Dinâmica Antecipativa}
 
-Condicionada às evidências empíricas obitidas na caracterização da dinâmica temporal, a terceira frente metodológica consiste na proposição e validação de uma estratégia de seleção dinâmica antecipativa de modelos, respondendo diretamente à questão \textbf{PQ3}. O método proposto explora a evolução temporal da discordância para guiar a composição do comitê antes da observação do valor futuro $y_{t+h}.$ 
+Condicionada às evidências empíricas obtidas na caracterização da dinâmica temporal, a terceira frente metodológica consiste na proposição e validação de uma estratégia de seleção dinâmica antecipativa de modelos, respondendo diretamente à questão \textbf{PQ3}. O método proposto explora a evolução temporal da discordância para guiar a composição do comitê antes da observação do valor futuro $y_{t+h}.$ 
 
-Antes de combinar as previsões, o sistema proposto deverá avaliar como o \textit{pool} de modelos desempenhou no passado imediato. Serão observadas as janelas deslizantes onde contêm as informações mais recentes. Os modelos cujo acumulo de erro forem os maiores neste período serão descartados. Com isso, o grupo formado depois desta filtragem consiste apenas em especialistas no contexto atual da série.
+Antes de combinar as previsões, o sistema proposto deverá avaliar como o \textit{pool} de modelos se desempenhou no passado imediato. Serão observadas as janelas deslizantes que contêm as informações mais recentes. Os modelos cujo acumulo de erro forem os maiores neste período serão descartados. Com isso, o grupo formado depois desta filtragem consiste apenas em especialistas no contexto atual da série.
 
 Com a seleção prévia de modelos, o objetivo será escolher qual subconjunto final terá suas previsões combinadas. O método analisa a evolução da diversidade com base em observações recentes e faz uma projeção de qual deverá ser o nível de diversidade ideal para o próximo instante, utilizando um modelo cuja escolha dependerá das características da série da diversidade encontradas na análise da seção 4.2. 
 
-Para cada combinação possível entre os modelos, competentes, calcula-se o quanto eles discordam entre si, utilizando a métrica formalizada na seção 4.1. Por fim, o subconjunto de modelos cuja diversidade mais se aproxima da qual foi projetada como ideal para aquele instante no tempo é selecionado, buscando buscando equilibrar o erro com a complementaridade entre os preditores.
+Para cada combinação possível entre os modelos competentes, calcula-se o quanto eles discordam entre si, utilizando a métrica formalizada na seção 4.1. Por fim, o subconjunto de modelos cuja diversidade mais se aproxima da qual foi projetada como ideal para aquele instante no tempo é selecionado, buscando buscando equilibrar o erro com a complementaridade entre os preditores.
 
-Para validar a eficácia da abordagem, será replicado o protocolo experimental de \citeonline{cerqueiraArbitrageForecastingExperts2019} sobre as mesmas 30 séries temporais da etapa anterior. O método será comparado a \textit{baselines} ingênuos de diversidade, tais como a reutilização da diversidade ideal observada no passo anterior e a média movel da diversidade ideal na janela recente. O desempenho preditivo será mensurado por métricas como RMSE, MAE, e MAPE, as diferenças entre os métodos serão validadas estatisticamentes por meio do teste de Friedman seguido do \textit{post-hoc} de Nemenyi, complementados por análises de \textit{ranking} média e \textit{boxplots}.
+Para validar a eficácia da abordagem, será replicado o protocolo experimental de  Cerqueira \textit{et al.} \cite{cerqueiraArbitrageForecastingExperts2019} sobre as mesmas 30 séries temporais da etapa anterior. O método será comparado a \textit{baselines} ingênuos de diversidade, tais como a reutilização da diversidade ideal observada no passo anterior e a média movel da diversidade ideal na janela recente. O desempenho preditivo será mensurado por métricas como RMSE, MAE, e MAPE, as diferenças entre os métodos serão validadas estatisticamentes por meio do teste de Friedman seguido do \textit{post-hoc} de Nemenyi, complementados por análises de \textit{ranking} média e \textit{boxplots}.
