@@ -3,9 +3,9 @@
 | Data      | Horas | Atividade                                                                                                               | Entrega do dia                        | Status |
 | --------- | ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------ |
 | Sáb 14/11 | 3h    | Didaci et al. (2013), integral                                                                                          | Ficha preenchida                      | X      |
-| Dom 15/11 | 3h    | Wood et al., dirigido (motivação, formulação, conclusões; pular demonstrações e experimentos)                           | Ficha preenchida                      | ⬜      |
-| Seg 16/11 | 2h    | Cerqueira et al. (2019), integral. Ler alguns trechos de  Carvalho e Mendes. Enviar introdução e proposta ao orientador | Ficha + e-mail enviado                | ⬜      |
-| Ter 17/11 | 2h    | Saadallah et al. (2019), integral                                                                                       | Ficha preenchida                      | ⬜      |
+| Dom 15/11 | 3h    | Wood et al., dirigido (motivação, formulação, conclusões; pular demonstrações e experimentos)                           | Ficha preenchida                      | X      |
+| Seg 16/11 | 2h    | Cerqueira et al. (2019), integral. Ler alguns trechos de  Carvalho e Mendes. Enviar introdução e proposta ao orientador | Ficha + e-mail enviado                | X      |
+| Ter 17/11 | 2h    | Saadallah et al. (2019), integral                                                                                       | Ficha preenchida                      | X      |
 | Qua 18/11 | 2h    | Kim et al.: seção da decomposição e método                                                                              | Ficha preenchida                      | ⬜      |
 | Qui 19/11 | 2h    | Busca por trabalhos próximos + Carvalho et al., leitura rápida                                                          | Termos e bases registrados            | ⬜      |
 | Sex 20/11 | 2h    | Leitura rápida: Cerqueira DSAA 2017, Mendes-Moreira, Ahmed, Kuncheva e Whitaker. Conferir os 3 pontos pendentes         | Fichas curtas + pendências resolvidas | ⬜      |
